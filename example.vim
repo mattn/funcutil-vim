@@ -5,7 +5,7 @@ function! s:foo.bar(a, b)
   return sum
 endfunction
 
-function! s:ok(lhs, rhs, )
+function! s:ok(lhs, rhs)
   if a:lhs isnot# a:rhs
     throw "failed:".string(a:lhs).",".string(a:rhs)
   endif
