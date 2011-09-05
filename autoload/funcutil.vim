@@ -1,5 +1,5 @@
-if !exists('s:lambda')
-  let s:lambda = {'n':0, 'f':{}}
+if !exists('s:lambda_n')
+  let s:lambda_n = 0
 endif
 
 function! s:SID()
@@ -10,18 +10,14 @@ let s:sid = s:SID()
 
 function! funcutil#ref(f, ...)
   if type(a:f) == 1
-    if has_key(s:lambda.f, a:f)
-      return s:lambda.f[f]
-    else
-      let s:lambda.n += 1
-      let s:lambda_ff{s:lambda.n}_ = a:f
-      let s:lambda_ff{s:lambda.n}__ = a:000
-      function! s:lambda_ff{s:lambda.n}(...)
-        let __ = eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'__')
-        return eval(eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'_'))
-      endfunction
-      return function('<SNR>'.s:sid.'_lambda_ff'.(s:lambda.n))
-    endif
+    let s:lambda_n += 1
+    let s:lambda_ff{s:lambda_n}_ = a:f
+    let s:lambda_ff{s:lambda_n}__ = a:000
+    function! s:lambda_ff{s:lambda_n}(...)
+      let __ = eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'__')
+      return eval(eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'_'))
+    endfunction
+    return function('<SNR>'.s:sid.'_lambda_ff'.(s:lambda_n))
   elseif type(a:f) == 2 && len(a:000) == 1
     let f = matchstr(string(a:f), '''\zs\d\+\ze')
     if exists('*s:lambda_f'.f)
