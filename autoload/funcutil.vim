@@ -15,7 +15,9 @@ function! funcutil#ref(f, ...)
     else
       let s:lambda.n += 1
       let s:lambda_ff{s:lambda.n}_ = a:f
+      let s:lambda_ff{s:lambda.n}__ = a:000
       function! s:lambda_ff{s:lambda.n}(...)
+        let __ = eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'__')
         return eval(eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'_'))
       endfunction
       return function('<SNR>'.s:sid.'_lambda_ff'.(s:lambda.n))
