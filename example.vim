@@ -5,11 +5,18 @@ function! s:foo.bar(a, b)
   return sum
 endfunction
 
-echo call(funcutil#ref('a:1 + a:2'), [1,2])
-echo call(funcutil#ref('a:1 * a:2'), [2,3])
-echo call(funcutil#ref('a:1 . a:2'), [2,3])
+function! s:ok(lhs, rhs, )
+  if a:lhs isnot# a:rhs
+    throw "failed:".string(a:lhs).",".string(a:rhs)
+  endif
+  echo "ok"
+endfunction
 
-echo call(funcutil#ref(s:foo['bar'], s:foo), [2,3])
-echo call(funcutil#ref(s:foo['bar'], s:foo), [2,3])
-echo call(funcutil#ref(s:foo, 'bar'), [3,4])
-echo s:foo.x
+call s:ok(call(funcutil#ref('a:1 + a:2'), [1,2]), 3)
+call s:ok(call(funcutil#ref('a:1 * a:2'), [2,3]), 6)
+call s:ok(call(funcutil#ref('a:1 . a:2'), [2,3]), '23')
+
+call s:ok(call(funcutil#ref(s:foo['bar'], s:foo), [2,3]), 5)
+call s:ok(call(funcutil#ref(s:foo['bar'], s:foo), [2,3]), 5)
+call s:ok(call(funcutil#ref(s:foo, 'bar'), [3,4]), 7)
+call s:ok(s:foo.x, 17)
