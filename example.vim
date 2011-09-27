@@ -15,6 +15,7 @@ endfunction
 call s:ok(call(funcutil#ref('a:1 + a:2'), [1,2]), 3)
 call s:ok(call(funcutil#ref('a:1 * a:2'), [2,3]), 6)
 call s:ok(call(funcutil#ref('a:1 . a:2'), [2,3]), '23')
+call s:ok(funcutil#ref('a:1 / a:2')(9,3), 3)
 
 call s:ok(call(funcutil#ref(s:foo['bar'], s:foo), [2,3]), 5)
 call s:ok(call(funcutil#ref(s:foo['bar'], s:foo), [2,3]), 5)
