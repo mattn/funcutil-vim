@@ -14,8 +14,8 @@ function! funcutil#ref(f, ...)
     let s:lambda_ff{s:lambda_n}_ = a:f
     let s:lambda_ff{s:lambda_n}__ = a:000
     function! s:lambda_ff{s:lambda_n}(...)
-      let __ = eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'__')
-      return eval(eval(substitute(expand('<sfile>'), '^[^_]\+_', 's:', '').'_'))
+      let __ = eval(substitute(expand('<sfile>'), '^.*\zelambda_ff[0-9]\+$', 's:', '').'__')
+      return eval(eval(substitute(expand('<sfile>'), '^.*\zelambda_ff[0-9]\+$', 's:', '').'_'))
     endfunction
     return function('<SNR>'.s:sid.'_lambda_ff'.(s:lambda_n))
   elseif type(a:f) == 2 && len(a:000) == 1
